@@ -8,13 +8,14 @@ using DiskInventory.Models;
 /*
     Original Author: Luke Chulack                         
     Date Created:  11/12/2021                                     
-    Version: 1.0                                           
-    Date Last Modified: 11/12/2021                               
+    Version: 2.0                                           
+    Date Last Modified: 11/19/2021                               
     Modified by: Luke Chulack                                          
     Modification log: 
 
            version 1.0 -  11/12/2021  - Built the Media Controller which links to the view in the Media view folder
- 
+           version 2.0 -  11/12/2021  - Added the logic for the add, edit and delete buttons in the media view;
+
  */
 namespace DiskInventory.Controllers
 {
