@@ -102,8 +102,19 @@ body {
     padding: 1rem;
 }
 
+.fourCard {
+    background-color: #ffc107;
+    color: #FFF;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+}
+   
+
 .h1MainDisplay {
-    margin-bottom:2rem;
+    margin-bottom: 2rem;
 }
 
 .btnHome:hover {
