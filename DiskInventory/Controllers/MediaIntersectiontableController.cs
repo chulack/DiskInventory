@@ -36,7 +36,7 @@ namespace DiskInventory.Controllers
         public IActionResult Index()
         {
 
-            var mediaintersectiontable = context.MediaIntersectiontables.Include(d => d.Media).Include(b => b.Borrower).ToList();
+            var mediaintersectiontable = context.MediaIntersectiontables.Include(d => d.Media).OrderBy(d => d.Media.MediaName).Include(b => b.Borrower).ToList();
 
             return View(mediaintersectiontable);
         }
