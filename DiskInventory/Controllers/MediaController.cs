@@ -4,17 +4,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DiskInventory.Models;
+using Microsoft.EntityFrameworkCore;
+
 
 /*
     Original Author: Luke Chulack                         
     Date Created:  11/12/2021                                     
-    Version: 2.0                                           
-    Date Last Modified: 11/19/2021                               
+    Version: 3.0                                           
+    Date Last Modified: 12/10/2021                               
     Modified by: Luke Chulack                                          
     Modification log: 
 
            version 1.0 -  11/12/2021  - Built the Media Controller which links to the view in the Media view folder
            version 2.0 -  11/12/2021  - Added the logic for the add, edit and delete buttons in the media view;
+           version 3.0 -  12/10/2021  - changed all add, edit, and delete elements to use sql stored procedures, also send data to view regarding success on action;
 
  */
 namespace DiskInventory.Controllers
@@ -68,14 +71,20 @@ namespace DiskInventory.Controllers
             {
                 if (media.MediaId == 0) // add media
                 {
-                    context.Media.Add(media);
+                   // context.Media.Add(media);
+                    context.Database.ExecuteSqlRaw("execute sp_ins_media @p0, @p1, @p2, @p3, @p4", parameters: new[] { media.MediaName, media.ReleseDate.ToString(), media.GenreId.ToString(), media.StatusId.ToString(), media.MediaTypeId.ToString() });
+                    TempData["actionMessage"] = "added";
 
                 }
                 else // update media
                 {
-                    context.Media.Update(media);
+                    // context.Media.Update(media);
+                    context.Database.ExecuteSqlRaw("execute sp_upd_media @p0, @p1, @p2, @p3, @p4, @p5", parameters: new[] { media.MediaName, media.ReleseDate.ToString(), media.GenreId.ToString(), media.StatusId.ToString(), media.MediaTypeId.ToString(), media.MediaId.ToString() });
+                    TempData["actionMessage"] = "updated";
+
+
                 }
-                context.SaveChanges();
+                //   context.SaveChanges();
                 return RedirectToAction("Index", "Media");
 
             }
@@ -101,8 +110,10 @@ namespace DiskInventory.Controllers
 
         public IActionResult Delete(Medium media) // overload delete
         {
-            context.Media.Remove(media);
-            context.SaveChanges();
+            //context.Media.Remove(media);
+            //context.SaveChanges();
+            context.Database.ExecuteSqlRaw("execute sp_del_media @p0", parameters: new[] { media.MediaId.ToString() });
+            TempData["actionMessage"] = "updated";
 
             return RedirectToAction("Index", "Media");
         }

@@ -9,12 +9,14 @@ using Microsoft.EntityFrameworkCore;
 /*
     Original Author: Luke Chulack                         
     Date Created:  12/3/2021                                     
-    Version: 1.0                                           
-    Date Last Modified: 12/3/2021                              
+    Version: 2.0                                           
+    Date Last Modified: 12/10/2021                              
     Modified by: Luke Chulack                                          
     Modification log: 
 
-           version 1.0 -  11/12/2021  - Built the MediaIntersectiontable Controller which links to the view in the MediaIntersectiontable view folder
+           version 1.0 -  12/3/2021  - Built the MediaIntersectiontable Controller which links to the view in the MediaIntersectiontable view folder
+           version 2.0 -  12/10/2021  - changed all add and edit elements to use sql stored procedures, also send data to view regarding success on action;
+
 
  */
 
@@ -73,18 +75,34 @@ namespace DiskInventory.Controllers
         [HttpPost]
         public IActionResult Edit(MediaIntersectiontable mediaintersectiontable)
         {
+
+            string returneddate = mediaintersectiontable.ReturnedDate.ToString();
+            returneddate = (returneddate.Trim() == "") ? null : mediaintersectiontable.ReturnedDate.ToString();
+
             if (ModelState.IsValid)
             {
                 if (mediaintersectiontable.MediaIntersectionId == 0) // add media
                 {
-                    context.MediaIntersectiontables.Add(mediaintersectiontable);
+                    // context.MediaIntersectiontables.Add(mediaintersectiontable);
+
+                    context.Database.ExecuteSqlRaw("execute sp_ins_mediaIntersectiontable @p0, @p1, @p2, @p3", parameters: new[] { mediaintersectiontable.BorrowerId.ToString(), mediaintersectiontable.MediaId.ToString(), mediaintersectiontable.BorrowedDate.ToString(), returneddate });
+                    TempData["actionMessage"] = "added";
 
                 }
                 else // update media
                 {
-                    context.MediaIntersectiontables.Update(mediaintersectiontable);
+                    //   context.MediaIntersectiontables.Update(mediaintersectiontable);
+
+                    var a = mediaintersectiontable.ReturnedDate.ToString();
+                  
+                        context.Database.ExecuteSqlRaw("execute sp_upde_mediaIntersectiontable @p0, @p1, @p2, @p3, @p4", parameters: new[] { mediaintersectiontable.MediaIntersectionId.ToString(), mediaintersectiontable.BorrowerId.ToString(), mediaintersectiontable.MediaId.ToString(), mediaintersectiontable.BorrowedDate.ToString(), returneddate });
+                        TempData["actionMessage"] = "updated";
+                  
+                        context.Database.ExecuteSqlRaw("execute sp_upde_mediaIntersectiontable @p0, @p1, @p2, @p3, @p4", parameters: new[] { mediaintersectiontable.MediaIntersectionId.ToString(), mediaintersectiontable.BorrowerId.ToString(), mediaintersectiontable.MediaId.ToString(), mediaintersectiontable.BorrowedDate.ToString(), returneddate });
+                        TempData["actionMessage"] = "updated";
+                    
                 }
-                context.SaveChanges();
+                //   context.SaveChanges();
                 return RedirectToAction("Index", "MediaIntersectiontable");
 
             }
