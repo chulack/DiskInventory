@@ -14,7 +14,7 @@ namespace DiskInventory.Models
         [Required]
         public int BorrowerId { get; set; }
         public DateTime? ReturnedDate { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please selecct a date for the borrowed time")]
         public DateTime BorrowedDate { get; set; }
 
         public virtual Borrower Borrower { get; set; }

@@ -13,11 +13,11 @@ namespace DiskInventory.Models
         }
 
         public int ArtistId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please enter a first Name for artist.")]
 
         public string ArtistFname { get; set; }
         public string ArtistLname { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please select an artist type.")]
         public int ArtistTypeId { get; set; }
 
         public virtual ArtistType ArtistType { get; set; }

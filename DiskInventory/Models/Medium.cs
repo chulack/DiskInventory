@@ -15,15 +15,18 @@ namespace DiskInventory.Models
         }
 
         public int MediaId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please enter the name of the media.")]
+
         public string MediaName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please enter the date of release.")]
+
         public DateTime ReleseDate { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please select a genre")]
+
         public int GenreId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please select a Status")]
         public int StatusId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please select a media type")]
         public int MediaTypeId { get; set; }
        
         public virtual Genre Genre { get; set; }

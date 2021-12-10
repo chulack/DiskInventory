@@ -14,11 +14,13 @@ namespace DiskInventory.Models
         }
 
         public int BorrowerId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please enter a first Name for borrrower.")]
         public string Fname { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please enter a last Name for borrrower.")]
+
         public string Lname { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please enter a Phone Number for borrrower.")]
+
         public string BorrowerPhoneNum { get; set; }
 
         public virtual ICollection<MediaIntersectiontable> MediaIntersectiontables { get; set; }
